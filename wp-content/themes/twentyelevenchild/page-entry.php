@@ -1,0 +1,134 @@
+<?php
+/**
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site will use a
+ * different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Eleven
+ * @since Twenty Eleven 1.0
+ */
+
+add_filter('show_admin_bar', '__return_false');
+
+get_header('minimal'); ?>
+
+		<div id="primary"> 
+
+			<?php if(is_user_logged_in()): ?>
+ 
+				<?php while ( have_posts() ) : the_post(); ?>
+					
+					<header class="entry-header">
+						<h1 class="entry-title"><?php echo the_title();?></h1>
+					</header>
+					<?php
+
+
+					//Check if we searched for something
+					if($_GET['search']){
+
+						//define our search term
+						$search = $_GET['search'];
+
+						//get a SFDC connection
+						require_once ('inc/sfdc_connection.php');
+
+						$query = "SELECT Id, FirstName, LastName, Nickname__c from Contact WHERE Nickname__c LIKE '%" . $search . "%'";
+						$response = $mySforceConnection->query($query);
+
+						// echo "Results of query '$query'<br/><br/>\n";
+
+						//Check to see if we have any records
+						if($response->size > 0){
+							//Create a list
+
+							echo '<ul class="entry-list">';
+
+							foreach ($response->records as $record) {
+							    // echo $record->Id . ": " . $record->FirstName . " "
+							        // . $record->LastName . " " . $record->Nickname__c . "<br/>\n";
+							    echo '<li class="entry-list-item">';
+							    	$url = add_query_arg('id', $record->Id, get_the_permalink());
+							    	$url = add_query_arg('nickname', $record->Nickname__c, $url);
+							    	echo '<strong><a class="entry-button" href="' . $url . '">' . $record->Nickname__c . '</strong><br/>';
+							    	echo $record->FirstName . ' ' . $record->LastName . '</a>';
+							    echo '</li>';
+							}
+
+							echo '</ul>';
+						}
+						else{
+							echo 'No results';
+						}
+
+					}
+					elseif ($_GET['id']) {
+						$id = $_GET['id'];
+						$nickname = $_GET['nickname'];
+
+						//We've selected an individual user. 
+						echo '<h1>' . $nickname . '</h1>';
+
+						if(!$_GET['activity']){
+							//Select the activity type
+							?>
+							<ul>
+								Select entrance type:
+								<li>
+									<a href="<?php echo add_query_arg('activity', 'social');?>">Social</a>
+								</li>
+								<li>
+									<a href="<?php echo add_query_arg('activity', 'class');?>">Class/Course</a>
+								</li>
+								<li>
+									<a href="<?php echo add_query_arg('activity', 'appointment');?>">Appointment</a>
+								</li>
+							</ul>
+							<?php
+						}
+						else{
+							//Submit the entry to SFDC
+							//id, activity
+
+							//get a SFDC connection
+							require_once ('inc/sfdc_connection.php');
+
+							//Put the info into an array of objects to submit
+							$records = array();
+							$records[0] = new stdclass();
+							$records[0]->User__c = $id;
+							$records[0]->Activity__c = $_GET['activity'];
+
+							$response = $mySforceConnection->create($records, 'Entry__c');
+
+							if($response[0]->success > 0){
+								echo '<p>Entry submitted</p>';
+							}
+						}
+					}
+					else{
+						//Show a form to search for a nickname
+						?>
+						
+						<form name="search-form" method="get">
+							Nickname: <input type="text" name="search">
+							<input type="submit" value="Search">
+						</form>
+						<?php
+					}
+					
+					?>
+				
+				<?php endwhile; // end of the loop. ?>
+			
+			<?php else: ?>
+				Please log in as admin to view this page.
+			<?php endif; ?>
+
+		</div><!-- #primary -->
+
+<?php get_footer(); ?>
