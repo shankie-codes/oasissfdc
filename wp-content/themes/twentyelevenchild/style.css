@@ -395,31 +395,13 @@ a:focus, a:active, a:hover {
 
 /*Custom styling for entry process*/
 
-.entry-list {
-    list-style-type: none;
-    padding-left: 0;
-    list-style: none;
+.pure-button{
+    margin: 0.5em;
 }
 
-.entry-list-item, li.entry-list-item a{
-    width: 15em;
-    background-color: #669999;
-    color: black;
-    text-align: center;
-    height: 4em;
-    border-radius: 10px;
-    margin: 1em;
-}
 
-.nav-button {
-    width: 15em;
-    background-color: #669999;
-    color: black;
-    text-align: center;
-    height: 4em;
-    border-radius: 10px;
-    margin: 1em;
-    
+.alert{
+    color: red;
 }
 
 .assistive-text {

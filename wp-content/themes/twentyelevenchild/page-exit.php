@@ -37,22 +37,27 @@ get_header('minimal'); ?>
 
 						//Check that we got something back
 						if($response->size > 0){
-							echo '<ul class="entry-list">';
+							
+							echo 'Select nickname:<br/>';
 							foreach ($response->records as $record) {
 								//Compose a query string
 								$url = add_query_arg('exit', $record->Id, get_the_permalink());
 								$url = add_query_arg('nickname', $record->User__r->Nickname__c, $url);
-								echo '<a href="' . $url . '"><li class="entry-list-item">';
+
+
+								echo '<a class="pure-button pure-button-primary" href="' . $url . '">';
 
 									//Convert SFDC's datetime into something more usable
-									$date = new DateTime($record->CreatedDate);
+									$date = new DateTime($record->CreatedDate . ' UTC');
 									
+									//SEt the timezone
+									$date->setTimezone(new DateTimeZone('Europe/London'));
 									
 									echo '<strong>' . $record->User__r->Nickname__c . '</strong><br/>' ;
 									echo $date->format('H:i');
-								echo '</li></a>';
+								echo '</a>';
 							}
-							echo '</ul>';
+
 						}
 						else{
 							echo '<p>No-one left in the centre</p>';

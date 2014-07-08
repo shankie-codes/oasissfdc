@@ -85,12 +85,19 @@
 				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
 			</hgroup>
 
-
-			<?php
-            //Display some navigation for our little app
-            echo '<a class="nav-button" href="' . get_permalink( get_page_by_path( 'entry' )) . '">' . 'New sign-in search</a>';
-            echo '<a class="nav-button" href="' . get_permalink( get_page_by_path( 'exit' )) . '">' . 'New exit</a>';
-            ?>
+			<nav id="access" role="navigation">
+				<div class="menu-main-menu-container">
+					<ul class="menu-main-menu">
+					<?php
+		            //Display some navigation for our little app
+		
+		            echo '<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="' . get_permalink( get_page_by_path( 'entry' )) . '">' . 'New sign-in search</a></li>';
+		            echo '<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="' . get_permalink( get_page_by_path( 'exit' )) . '">' . 'New exit</a></li>';
+		            echo '<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="' . get_permalink( get_page_by_path( 'create' )) . '">' . 'New contact</a></li>';
+		            ?>
+		            </ul>
+				</div>
+			</nav>
 	</header><!-- #branding -->
 
 

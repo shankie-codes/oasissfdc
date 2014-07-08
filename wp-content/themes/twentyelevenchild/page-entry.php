@@ -45,21 +45,20 @@ get_header('minimal'); ?>
 						//Check to see if we have any records
 						if($response->size > 0){
 							//Create a list
-
-							echo '<ul class="entry-list">';
-
+							echo 'Select nickname:<br/>';
 							foreach ($response->records as $record) {
 							    // echo $record->Id . ": " . $record->FirstName . " "
 							        // . $record->LastName . " " . $record->Nickname__c . "<br/>\n";
-							    echo '<li class="entry-list-item">';
 							    	$url = add_query_arg('id', $record->Id, get_the_permalink());
 							    	$url = add_query_arg('nickname', $record->Nickname__c, $url);
-							    	echo '<strong><a class="entry-button" href="' . $url . '">' . $record->Nickname__c . '</strong><br/>';
-							    	echo $record->FirstName . ' ' . $record->LastName . '</a>';
-							    echo '</li>';
+
+							    echo '<a class="pure-button pure-button-primary" href="' . $url . '">';
+							    	echo '<strong>' . $record->Nickname__c . '</strong><br/>';
+							    	echo $record->FirstName . ' ' . $record->LastName ;
+							    echo '</a>';
 							}
 
-							echo '</ul>';
+
 						}
 						else{
 							echo 'No results';
@@ -76,17 +75,12 @@ get_header('minimal'); ?>
 						if(!$_GET['activity']){
 							//Select the activity type
 							?>
-							<ul>
+							<ul class="entry-list">
 								Select entrance type:
-								<li>
-									<a href="<?php echo add_query_arg('activity', 'social');?>">Social</a>
-								</li>
-								<li>
-									<a href="<?php echo add_query_arg('activity', 'class');?>">Class/Course</a>
-								</li>
-								<li>
-									<a href="<?php echo add_query_arg('activity', 'appointment');?>">Appointment</a>
-								</li>
+								<a href="<?php echo add_query_arg('activity', 'social');?>"><li><span>Social</span></li></a>
+								<a href="<?php echo add_query_arg('activity', 'class');?>"><li><span>Class/Course</span></li></a>
+								<a href="<?php echo add_query_arg('activity', 'appointment');?>"><li><span>Appointment</span></li></a>
+								
 							</ul>
 							<?php
 						}
@@ -114,9 +108,14 @@ get_header('minimal'); ?>
 						//Show a form to search for a nickname
 						?>
 						
-						<form name="search-form" method="get">
-							Nickname: <input type="text" name="search">
-							<input type="submit" value="Search">
+						<form name="search-form" method="get" class="pure-form pure-form-aligned">
+							<fieldset>
+								<div class="pure-control-group">
+									<label for="search">Nickname</label>
+									<input type="text" name="search">
+									<button type="submit" class="pure-button pure-button-primary">Search</button>
+								</div>
+							</fieldset>
 						</form>
 						<?php
 					}
