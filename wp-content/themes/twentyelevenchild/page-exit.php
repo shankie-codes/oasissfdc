@@ -90,7 +90,13 @@ get_header('minimal'); ?>
 				<?php endwhile; // end of the loop. ?>
 			
 			<?php else: ?>
-				Please log in as admin to view this page.
+				
+				<?php 
+				global $post;
+				$slug = get_post( $post )->post_name;
+
+				?>
+				<p>You must be logged in to view this page. <a href="<?php echo site_url();?>/wp-login.php?redirect_to=<?php echo site_url() . '/' . $slug;?>">Please log in</a>.</p>
 			<?php endif; ?>
 
 		</div><!-- #primary -->

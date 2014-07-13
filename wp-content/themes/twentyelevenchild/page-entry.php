@@ -75,13 +75,11 @@ get_header('minimal'); ?>
 						if(!$_GET['activity']){
 							//Select the activity type
 							?>
-							<ul class="entry-list">
-								Select entrance type:
-								<a href="<?php echo add_query_arg('activity', 'social');?>"><li><span>Social</span></li></a>
-								<a href="<?php echo add_query_arg('activity', 'class');?>"><li><span>Class/Course</span></li></a>
-								<a href="<?php echo add_query_arg('activity', 'appointment');?>"><li><span>Appointment</span></li></a>
+							Select entrance type:
+								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'social');?>">Social</a>
+								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'class');?>">Class/Course</a>
+								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'appointment');?>">Appointment</a>
 								
-							</ul>
 							<?php
 						}
 						else{
@@ -125,7 +123,13 @@ get_header('minimal'); ?>
 				<?php endwhile; // end of the loop. ?>
 			
 			<?php else: ?>
-				Please log in as admin to view this page.
+				
+				<?php 
+				global $post;
+				$slug = get_post( $post )->post_name;
+
+				?>
+				<p>You must be logged in to view this page. <a href="<?php echo site_url();?>/wp-login.php?redirect_to=<?php echo site_url() . '/' . $slug;?>">Please log in</a>.</p>
 			<?php endif; ?>
 
 		</div><!-- #primary -->
