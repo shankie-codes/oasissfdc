@@ -404,6 +404,17 @@ a:focus, a:active, a:hover {
     color: red;
 }
 
+.fa{
+    position: relative;
+    font-size: 200%;
+    top: 5px;
+}
+
+.pure-control-group label{
+    line-height: 1.5;
+    min-width: 200px;
+}
+
 .assistive-text {
     position: absolute;
     clip: rect(1px, 1px, 1px, 1px);

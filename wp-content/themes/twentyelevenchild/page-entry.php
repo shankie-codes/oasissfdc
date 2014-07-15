@@ -79,7 +79,7 @@ get_header('minimal'); ?>
 								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'social');?>">Social</a>
 								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'class');?>">Class/Course</a>
 								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'appointment');?>">Appointment</a>
-								
+								<a class="pure-button pure-button-primary" href="<?php echo add_query_arg('activity', 'solicitors');?>">Solicitors</a>
 							<?php
 						}
 						else{
